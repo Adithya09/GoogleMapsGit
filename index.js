@@ -73,7 +73,17 @@ function drawPolyline(){
 
 //Funciton to draw polygons on the maps
 function drawPolygon(){
-  drawingManager = new google.maps.drawing.drawingManager();
+  drawingManager = new google.maps.drawing.DrawingManager({
+    drawingMode: google.maps.drawing.OverlayType.MARKER,
+    drawingControl: true,
+    drawingControlOptions: {
+      position: google.maps.ControlPosition.TOP_CENTER,
+      drawingModes: [
+        google.maps.drawing.OverlayType.MARKER,
+        google.maps.drawing.OverlayType.POLYLINE,
+        google.maps.drawing.OverlayType.POLYGON
+      ],
+    },
+  });
   drawingManager.setMap(map);
-
 }
