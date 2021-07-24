@@ -44,15 +44,14 @@ function initMap(){
   google.maps.event.addListener(drawingManager, "overlaycomplete", function(e){
     var newShape = e.overlay;
     newShape.type = e.type;
-    if(newShape.type === google.maps.drawing.OverlayType.POLYGON){
-      google.maps.event.addListener(newShape, "click", function(event){
-          if(google.maps.geometry.poly.containsLocation(event.latLng, newShape)
-        ){
-            alert(event.latLng + " lies inside the polygon");
-          }else{
-            alert(event.latLng + " lies outside the polygon");
-          }
-      });
+    google.maps.event.addListener(newShape, "click", function(event){
+      if(google.maps.geometry.poly.containsLocation(event.latLng, newShape)){
+      alert(event.latLng + " lies inside the polygon");
     }
+    google.maps.event.addListener(map, "click", function(event2){
+    alert(event2.latLng + " does not lie inside the polygon");
+    console.log(event2.latLng + "does not lie inside the polygon");
+    });
   });
+});
 }
