@@ -7,6 +7,9 @@ let drawingManager;
 //Defining a global marker object
 let marker;
 
+//Defining a global newShape
+let newShape;
+
 function initMap(){
   //Creating a new map with the center in London
    map = new google.maps.Map(document.getElementById("map"), {
@@ -41,17 +44,18 @@ function initMap(){
   /*Adding functionality to check if a clicked point lies inside a polygon or
     outside
   */
+  google.maps.event.addListener(map, "click", function(event2){
+  alert(event2.latLng + " does not lie inside the polygon");
+  console.log(event2.latLng + "does not lie inside the polygon");
+  });
   google.maps.event.addListener(drawingManager, "overlaycomplete", function(e){
-    var newShape = e.overlay;
+    newShape = e.overlay;
     newShape.type = e.type;
+    var coordinatesArray = newShape.getPath().getArray();
     google.maps.event.addListener(newShape, "click", function(event){
       if(google.maps.geometry.poly.containsLocation(event.latLng, newShape)){
-      alert(event.latLng + " lies inside the polygon");
+      alert(event.latLng + " lies inside the polygon with paths: " + coordinatesArray);
     }
-    google.maps.event.addListener(map, "click", function(event2){
-    alert(event2.latLng + " does not lie inside the polygon");
-    console.log(event2.latLng + "does not lie inside the polygon");
-    });
   });
 });
 }
