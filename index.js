@@ -16,6 +16,25 @@ let selectedShape;
 //Defining an array of polygons
 let polygonArray = [];
 
+//Function to convert an object to a string
+function objToString (obj) {
+    return Object.entries(obj).reduce((str, [p, val]) => {
+        return `${str}${p}::${val}\n`;
+    }, '');
+}
+
+//Function to generate a random code for each polygon
+function makeID(){
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < 5; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() *
+    charactersLength));
+  }
+  return result;
+}
+
 function initMap(){
   //Creating a new map with the center in London
    map = new google.maps.Map(document.getElementById("map"), {
@@ -42,7 +61,9 @@ function initMap(){
     polygonOptions: {
       draggable: true,
       editable: true,
-      clickable: true
+      clickable: true,
+      // id: makeID()
+
     }
   });
   drawingManager.setMap(map);
@@ -51,14 +72,15 @@ function initMap(){
     outside
   */
   google.maps.event.addListener(map, "click", function(E){
-  alert(E.latLng + " does not lie inside a polygon");
-  });
-  google.maps.event.addListener(drawingManager, "overlaycomplete", function(e){
-    var coordinatesArray = e.overlay.getPath().getArray();
-    google.maps.event.addListener(e.overlay, "click", function(event){
-      if(google.maps.geometry.poly.containsLocation(event.latLng, e.overlay)){
-      alert(event.latLng + " lies inside the polygon with paths: " + coordinatesArray);
-    }
-  });
-  });
+ alert(E.latLng + " does not lie inside a polygon");
+ });
+ google.maps.event.addListener(drawingManager, "overlaycomplete", function(e){
+   var coordinatesArray = e.overlay.getPath().getArray();
+   coordinatesArray = makeID();
+   google.maps.event.addListener(e.overlay, "click", function(event){
+     if(google.maps.geometry.poly.containsLocation(event.latLng, e.overlay)){
+     alert(event.latLng + " lies inside the polygon with paths: " + coordinatesArray);
+   }
+ });
+ });
 }
