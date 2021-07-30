@@ -16,13 +16,6 @@ let selectedShape;
 //Defining an array of polygons
 let polygonArray = [];
 
-//Function to convert an object to a string
-function objToString (obj) {
-    return Object.entries(obj).reduce((str, [p, val]) => {
-        return `${str}${p}::${val}\n`;
-    }, '');
-}
-
 //Function to generate a random code for each polygon
 function makeID(){
   var result           = '';
@@ -62,8 +55,6 @@ function initMap(){
       draggable: true,
       editable: true,
       clickable: true,
-      // id: makeID()
-
     }
   });
   drawingManager.setMap(map);
@@ -79,7 +70,7 @@ function initMap(){
    coordinatesArray = makeID();
    google.maps.event.addListener(e.overlay, "click", function(event){
      if(google.maps.geometry.poly.containsLocation(event.latLng, e.overlay)){
-     alert(event.latLng + " lies inside the polygon with paths: " + coordinatesArray);
+     alert(event.latLng + " lies inside the polygon: " + coordinatesArray);
    }
  });
  });
