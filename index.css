@@ -2,6 +2,11 @@
   height: 100%;
 }
 
+#msg{
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+}
+
 html,
 body {
   height: 100%;
