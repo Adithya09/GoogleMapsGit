@@ -80,6 +80,41 @@ function calcEnteredRoutes(){
        }
      }
    });
+
+   /*
+  Calculating point to point length between the origin and end
+  coordinates
+  */
+  var line = new google.maps.Polyline({
+    path: [marker1position, marker2position],
+    map: map,
+    geodesic: true,
+    strokeColor: "#FF9E2C",
+    strokeOpacity: 0.7,
+    strokeWeight: 1,
+  });
+
+  //Radius of the Earth in miles
+  var R = 3958.8;
+  //Convert degrees to radians
+  var rlat1 = mk1.position.lat() * (Math.PI/180);
+
+  //Convert degrees to radians
+  var rlat2 = mk2.position.lat() * (Math.PI/180);
+
+  //Radian difference (latitudes)
+  var difflat = rlat2-rlat1;
+
+  // Radian difference (longitudes)
+  var difflon = (mk2.position.lng()-mk1.position.lng())
+   * (Math.PI/180);
+
+  var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*
+  Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*
+  Math.sin(difflon/2)));
+
+  document.getElementById('msg2').innerHTML =
+  "Straight line distance between markers: " + d.toFixed(2) + " mi.";
 }
 
 //Function to refresh the map
